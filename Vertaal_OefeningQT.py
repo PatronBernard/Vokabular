@@ -4,7 +4,7 @@ class ExerciseSession:
     dictionary  =[]   #Contains each word with its translation
     score       =0         
     ex_amount   =0
-    ex_no       =0
+    ex_no       =1
     dataLoaded  =False
     
     def __init__(self):
@@ -20,9 +20,7 @@ class ExerciseSession:
             self.dataLoaded=True
         except FileNotFoundError:
             print('LoadExercises: No file found. Make sure it exists!')
-        self.ex_amount=len(self.dictionary)
-        self.ex_no=0 
-    def ShuffleExercises(self):
+    def shuffleExercises(self):
         if self.dataLoaded:
             random.shuffle(self.dictionary)
         else:
@@ -40,24 +38,26 @@ class ExerciseSession:
     def getExercise(self):
         print(self.ex_no)
         if self.dataLoaded:
-            return str(self.dictionary[self.ex_no][0])
-        
+            return str(self.dictionary[self.ex_no % len(self.dictionary)][0])
+
     def checkExercise(self,user_answer):
         if self.dataLoaded:
-            print(cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no][1]))
+            self.ex_amount+=1
+            print(cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1]))
             #Check the answer and go to next exercise
-            if cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no][1]):
+            if cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1]):
                 self.score+=1
                 return True  
             else:
                 return False
+                
     
     def nextExercise(self):
-        if self.ex_no < self.ex_amount-1:
+        #if self.ex_no < self.ex_amount-1:
             self.ex_no+=1
-        else:
-            self.ex_no=0
-            self.resetScore()
+        #else:
+            #self.ex_no=0
+            #self.resetScore()
             
 #Basic method that cleans strings for easy comparison
 def cleanstr(istring):
@@ -81,6 +81,7 @@ class MainWindow(QtGui.QWidget):
             if self.ExSess.dataLoaded:
                 self.writeToLog('Successfully loaded ' + str(self.ExSess.getDictSize()) + ' words from \" ' + filename + ' \" ')
                 self.writeToLog('========================================')
+                self.ExSess.shuffleExercises()
                 self.showExercise()
             else:
                 self.writeToLog('Failed to load ' + '\"' + filename + '\"')
@@ -108,7 +109,7 @@ class MainWindow(QtGui.QWidget):
         sButton=QtGui.QPushButton()
         sButton.setText('Submit')
         sButton.setToolTip('Submit Answer (Enter)')
-        sButton.clicked.connect(self.processUserInput)
+        sButton.clicked.connect(self.sendToInputProcessor)
         
         #VBox
         vbox=QtGui.QVBoxLayout(self)
@@ -132,31 +133,35 @@ class MainWindow(QtGui.QWidget):
     def showExercise(self):
         self.writeToLog(self.ExSess.getExercise())
         
-    #Better split this into gathering and processing the input!
-    def processUserInput(self):
-        if self.ExSess.ex_no==(self.ExSess.ex_amount-1):
-            self.writeToLog('Done! Resetting score...')    
+    #Rewrite this whole thing!
+    def sendToInputProcessor(self):   
         user_input=str(self.lineEdit.text())
         self.outputLog.append(user_input)
         self.lineEdit.setText('')
         self.lineEdit.setFocus()
-        if self.ExSess.dataLoaded:
-            if(self.ExSess.checkExercise(user_input)):
-                self.writeToLog('Correct! Score: '+ str(self.ExSess.getScore()) + '/' + str(self.ExSess.getDictSize()) + '\n')
-            else:
-                self.writeToLog('Incorrect. Score: '+ str(self.ExSess.getScore()) + '/' + str(self.ExSess.getDictSize()) + '\n')
-            self.ExSess.nextExercise()
-            self.showExercise()
+        self.inputProcessor(user_input)
+    
 
+    def inputProcessor(self,input_str):
+        if self.ExSess.dataLoaded:
+            if(self.ExSess.checkExercise(input_str)):
+                self.writeToLog('Correct! Score: '+ str(self.ExSess.getScore()) + '/' + str(self.ExSess.ex_amount) + '\n')
+            else:
+                self.writeToLog('Incorrect. Score: '+ str(self.ExSess.getScore()) + '/' + str(self.ExSess.ex_amount) + '\n')
+            self.ExSess.nextExercise()
+            if self.ExSess.ex_no==(self.ExSess.ex_amount-1):
+                self.writeToLog('Done! Resetting score...') 
+            self.showExercise()
+        
             
     def keyPressEvent(self, e):
 
         if  e.key() == QtCore.Qt.Key_Escape:
             self.close()   
         elif e.key() == QtCore.Qt.Key_Enter:
-            self.processUserInput()
+            self.sendToInputProcessor()
         elif e.key() == QtCore.Qt.Key_Return:
-            self.processUserInput()
+            self.sendToInputProcessor()
 
         
         
