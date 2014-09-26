@@ -1,4 +1,5 @@
 import csv,random,sys
+from PyQt4 import QtCore
 
 class ExerciseSession:
     dictionary  =[]   #Contains each word with its translation
@@ -16,10 +17,11 @@ class ExerciseSession:
                 reader = csv.reader(fin)
                 for row in reader:
                     self.dictionary.append(row)
-            print('Successfully loaded {} exercises from {}'.format(self.ex_amount,filename))
+            print('Successfully loaded {} exercises from {}'.format(len(self.dictionary),filename))
             self.dataLoaded=True
-        except FileNotFoundError:
+        except IOError:
             print('LoadExercises: No file found. Make sure it exists!')
+            
     def shuffleExercises(self):
         if self.dataLoaded:
             random.shuffle(self.dictionary)
@@ -43,9 +45,14 @@ class ExerciseSession:
     def checkExercise(self,user_answer):
         if self.dataLoaded:
             self.ex_amount+=1
-            print(cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1]))
+            print("Checking equality")
+            type(cleanstr(user_answer))
+            type(cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1]))
+            cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1])
+            print("=======")
             #Check the answer and go to next exercise
-            if cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1]):
+            print type(self.dictionary[self.ex_no % len(self.dictionary)][1])
+            if True: #cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1]):
                 self.score+=1
                 return True  
             else:
@@ -59,7 +66,15 @@ class ExerciseSession:
             #self.ex_no=0
             #self.resetScore()
             
-#Basic method that cleans strings for easy comparison
+#Basic method that cleans and decodes strings for easy comparison
 def cleanstr(istring):
-    tempstr=istring.lower()
-    return tempstr.strip()
+    if isinstance(istring,str):
+        tempstr=istring.lower()
+        return tempstr.strip()
+    elif isinstance(istring,QtCore.QString):
+        decoded=unicode(istring.toUtf8(),'utf-8')
+        tempstr=decoded.lower()
+        return tempstr.strip()
+    
+   
+    

@@ -1,11 +1,11 @@
-import csv,random,sys
 import ExerciseSession
-    
+import sys 
 from PyQt4 import QtGui,QtCore
+
 #PyQT Interface 
 class MainWindow(QtGui.QWidget):
     #Logic object
-    ExSess=ExerciseSession()
+    ExSess=ExerciseSession.ExerciseSession()
     
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -71,7 +71,7 @@ class MainWindow(QtGui.QWidget):
         
     #Rewrite this whole thing!
     def sendToInputProcessor(self):   
-        user_input=str(self.lineEdit.text())
+        user_input=self.lineEdit.text()
         self.outputLog.append(user_input)
         self.lineEdit.setText('')
         self.lineEdit.setFocus()
