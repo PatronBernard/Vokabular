@@ -1,4 +1,5 @@
-import csv,random,sys
+import random,sys
+from openpyxl import load_workbook
 from PyQt4 import QtCore
 
 class ExerciseSession:
@@ -7,21 +8,19 @@ class ExerciseSession:
     ex_amount   =0
     ex_no       =1
     dataLoaded  =False
+    newdict=dict()
     
     def __init__(self):
         pass
         
     def LoadExercises(self,filename):
-        try:
-            with open(filename,'rt') as fin:
-                reader = csv.reader(fin)
-                for row in reader:
-                    self.dictionary.append(row)
-            print('Successfully loaded {} exercises from {}'.format(len(self.dictionary),filename))
-            self.dataLoaded=True
-        except IOError:
-            print('LoadExercises: No file found. Make sure it exists!')
-            
+        wb=load_workbook(filename)
+        ws=wb.active
+        for row in ws.rows:
+            self.newdict[row[0].value]=row[1].value
+        print (self.newdict)
+        
+        self.dataLoaded = True
     def shuffleExercises(self):
         if self.dataLoaded:
             random.shuffle(self.dictionary)
@@ -45,14 +44,7 @@ class ExerciseSession:
     def checkExercise(self,user_answer):
         if self.dataLoaded:
             self.ex_amount+=1
-            print("Checking equality")
-            type(cleanstr(user_answer))
-            type(cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1]))
-            cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1])
-            print("=======")
-            #Check the answer and go to next exercise
-            print type(self.dictionary[self.ex_no % len(self.dictionary)][1])
-            if True: #cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1]):
+            if cleanstr(user_answer)==cleanstr(self.dictionary[self.ex_no % len(self.dictionary)][1]):
                 self.score+=1
                 return True  
             else:
