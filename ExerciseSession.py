@@ -19,7 +19,7 @@ class ExerciseSession:
                     self.dictionary.append(row)
             print('Successfully loaded {} exercises from {}'.format(len(self.dictionary),filename))
             self.dataLoaded=True
-        except FileNotFoundError:
+        except IOError:
             print('LoadExercises: No file found. Make sure it exists!')
             
     def shuffleExercises(self):
