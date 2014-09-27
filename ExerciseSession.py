@@ -8,7 +8,6 @@ class ExerciseSession:
     ex_amount   =0
     ex_no       =1
     dataLoaded  =False
-    newdict=dict()
     
     def __init__(self):
         pass
@@ -17,9 +16,10 @@ class ExerciseSession:
         wb=load_workbook(filename)
         ws=wb.active
         for row in ws.rows:
-            self.newdict[row[0].value]=row[1].value
-        print (self.newdict)
-        
+            self.dictionary.append([row[0].value,row[1].value])
+        for word in self.dictionary:
+            print(word)
+            
         self.dataLoaded = True
     def shuffleExercises(self):
         if self.dataLoaded:
@@ -63,8 +63,10 @@ def cleanstr(istring):
     if isinstance(istring,str):
         tempstr=istring.lower()
         return tempstr.strip()
-    elif isinstance(istring,QtCore.QString):
-        decoded=unicode(istring.toUtf8(),'utf-8')
+    #elif isinstance(istring,QtCore.QString):
+    #This will have to do
+    else:
+        decoded=str(istring.toUtf8(),'utf-8')
         tempstr=decoded.lower()
         return tempstr.strip()
     
