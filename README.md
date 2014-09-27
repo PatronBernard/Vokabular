@@ -7,6 +7,7 @@ Requirements:
 
 QT Application to Practice Translations  
 
+
 Improvements that might get implemented:  
 *Words that you get wrong will occur more often  
 *Multiple tries/hints  
@@ -14,4 +15,4 @@ Improvements that might get implemented:
 *ban/unban words  
 
 v1.0 (27/09/2014)  
-*Added: basic functionality  
+*Added: basic functionality
