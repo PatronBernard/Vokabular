@@ -19,7 +19,7 @@ class MainWindow(QtGui.QWidget):
             self.ExSess.loadExercises(filename)
             if self.ExSess.dataLoaded:
                 self.writeToLog('Successfully loaded ' + str(self.ExSess.getDictSize()) + ' words from \" ' + filename + ' \" ')
-                self.writeToLog('========================================')
+                self.writeToLog('==============================================')
                 self.ExSess.shuffleExercises()
                 self.showExercise()
             else:
@@ -74,7 +74,7 @@ class MainWindow(QtGui.QWidget):
         
     def sendToInputProcessor(self):   
         user_input=self.lineEdit.text()
-        self.outputLog.append(user_input)
+        self.outputLog.append('>'+user_input)
         self.lineEdit.setText('')
         self.lineEdit.setFocus()
         self.inputProcessor(user_input)
@@ -111,8 +111,8 @@ def main():
     if len(sys.argv)==2:
         MainW.loadData(sys.argv[1])
     else:
-        MainW.loadData('')
-        print('No command line filename supplied.')
+        MainW.loadData('testopgave.xlsx')
+        print('No command line filename supplied. Reverting to default "testopgave.xlsx"')
         
     sys.exit(app.exec_())
     
