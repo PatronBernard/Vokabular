@@ -1,4 +1,4 @@
-<h1>QT Application to Practice Translations</h1>
+<h1><u>QT Application to Practice Translations</u></h1>
 
 <h3>Requirements:</h3>   
 <ul><li>Python 3 or higher  
