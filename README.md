@@ -8,7 +8,14 @@
 <h3>Usage: </h3>    
 ```>python Vertaal_OefeningQT.py <excel file with words and translations.xlsx>```  
 For example:  
-```>python Vertaal_OefeningQT.py testopgave.xlsx```
+```>python Vertaal_OefeningQT.py testopgave.xlsx```  
+
+<p>Note that the xlsx file should be UTF-8 encoded and contain only two columns. 
+The first column contains the word that has to be translated, the second one the solution.
+So far it appears to work with multiple words and commas, although this requires more testing. 
+Word comparison is case-insensitive. 
+</p>
+
 
 <h3>Improvements that might get implemented:  </h3>   
 <ul><li>Words that you get wrong will occur more often  </li>
