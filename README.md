@@ -24,5 +24,5 @@ Word comparison is case-insensitive.
 <li>ban/unban words  </li></ul>
 
 <h3> Version History </h3>
-<h4>v1.0 (27/09/2014)<h4> 
+<h4>v1.0 (27/09/2014)</h4> 
 <ul><li>Added: basic functionality</li></ul>
