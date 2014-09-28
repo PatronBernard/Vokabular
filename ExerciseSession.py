@@ -57,7 +57,7 @@ class ExerciseSession:
     def nextExercise(self):
             self.ex_no+=1
             
-#Basic method that cleans and decodes strings for easy comparison
+#Basic method that cleans and decodes strings for easy comparison.
 def cleanstr(istring):
     if isinstance(istring,str):
         tempstr=istring.lower()
