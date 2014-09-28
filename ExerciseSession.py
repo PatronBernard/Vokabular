@@ -3,14 +3,13 @@ from openpyxl import load_workbook,exceptions
 from PyQt4 import QtCore
 
 class ExerciseSession:
-    vocabularium= []   #Contains each word with its translation
-    score       = 0         
-    ex_amount   = 0
-    ex_no       = 1
-    dataLoaded  = False
     
     def __init__(self):
-        pass
+        self.vocabularium= []   #Contains each word with its translation
+        self.score       = 0         
+        self.ex_amount   = 0
+        self.ex_no       = 1
+        self.dataLoaded  = False
         
     def loadExercises(self,filename):
         try: 
@@ -63,8 +62,7 @@ def cleanstr(istring):
     if isinstance(istring,str):
         tempstr=istring.lower()
         return tempstr.strip()
-    #elif isinstance(istring,QtCore.QString):
-    #This will have to do
+    #This will have to do, the app will shit itself if istring is not a QString...
     else:
         decoded=str(istring.toUtf8(),'utf-8')
         tempstr=decoded.lower()
