@@ -10,6 +10,7 @@ class ExerciseSession:
         self.ex_amount   = 0
         self.ex_no       = 1
         self.dataLoaded  = False
+        self.attemptNo   = 1
         
     def loadExercises(self,filename):
         try: 
@@ -46,16 +47,22 @@ class ExerciseSession:
 
     def checkExercise(self,user_answer):
         if self.dataLoaded:
-            self.ex_amount+=1
             if cleanstr(user_answer)==cleanstr(self.vocabularium[self.ex_no % len(self.vocabularium)][1]):
                 self.score+=1
+                self.ex_amount+=1
                 return True  
             else:
                 return False
+
+    def getRightAnswer(self,question):
+        for i,item in enumerate(self.vocabularium):
+            if cleanstr(question)==item[0]:
+                return item[1]
                 
     
     def nextExercise(self):
             self.ex_no+=1
+            self.attemptNo=1
             
 #Basic method that cleans and decodes strings for easy comparison.
 def cleanstr(istring):

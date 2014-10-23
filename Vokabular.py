@@ -84,11 +84,32 @@ class MainWindow(QtGui.QWidget):
         if self.ExSess.dataLoaded:
             if(self.ExSess.checkExercise(input_str)):
                 self.writeToLog('Correct! Score: '+ str(self.ExSess.getScore()) + '/' + str(self.ExSess.ex_amount) + '\n')
+                self.ExSess.nextExercise()
+                self.ExSess.attemptNo=1
+            elif self.ExSess.attemptNo % 3 != 0:
+                #Adjust log message to plural/singular
+                if 3-self.ExSess.attemptNo == 1:
+                    plural = ' '
+                else:
+                    plural = 's '
+                
+                self.writeToLog(    'Incorrect. ' +
+                                    str(3-self.ExSess.attemptNo) + 
+                                    ' attempt'+
+                                    plural +
+                                    'remaining. \n')
+                self.ExSess.attemptNo+=1
             else:
-                self.writeToLog('Incorrect. Score: '+ str(self.ExSess.getScore()) + '/' + str(self.ExSess.ex_amount) + '\n')
-            self.ExSess.nextExercise()
+                self.writeToLog(    'Incorrect. The right answer was: ' + 
+                                    self.ExSess.getRightAnswer(self.ExSess.getExercise()) + 
+                                    '\n Score: '+ str(self.ExSess.getScore()) + 
+                                    '/' + 
+                                    str(self.ExSess.ex_amount) + '\n')
+                self.ExSess.nextExercise()
+                self.ExSess.attemptNo=1
             if self.ExSess.ex_no==(self.ExSess.ex_amount-1):
                 self.writeToLog('Done! Resetting score...') 
+                self.ExSess.resetScore()
             self.showExercise()
         
             
