@@ -7,8 +7,8 @@ class ExerciseSession:
     def __init__(self):
         self.vocabularium= []   #Contains each word with its translation
         self.score       = 0         
-        self.ex_amount   = 0
-        self.ex_no       = 1
+        self.ex_amount   = 1    #Total amount of exercises performed
+        self.ex_no       = 1    #Counter that is used to fetch the next exercise
         self.dataLoaded  = False
         self.attemptNo   = 1
         
@@ -36,6 +36,7 @@ class ExerciseSession:
         
     def resetScore(self):
         self.score=0
+        self.ex_amount=1
         
     def getDictSize(self):
         return len(self.vocabularium)
@@ -49,7 +50,7 @@ class ExerciseSession:
         if self.dataLoaded:
             if cleanstr(user_answer)==cleanstr(self.vocabularium[self.ex_no % len(self.vocabularium)][1]):
                 self.score+=1
-                self.ex_amount+=1
+                self.attemptNo=1
                 return True  
             else:
                 return False
@@ -63,6 +64,10 @@ class ExerciseSession:
     def nextExercise(self):
             self.ex_no+=1
             self.attemptNo=1
+            self.ex_amount+=1
+
+    def getScoreStr(self):
+        return 'Score: '+ str(self.score) +'/'+str(self.ex_amount) + '\n'
             
 #Basic method that cleans and decodes strings for easy comparison.
 def cleanstr(istring):

@@ -4,9 +4,6 @@ from PyQt4 import QtGui,QtCore
 
 #PyQT Interface 
 class MainWindow(QtGui.QWidget):
-    #This is the internal logic class
-
-    
     
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -83,9 +80,8 @@ class MainWindow(QtGui.QWidget):
     def inputProcessor(self,input_str):
         if self.ExSess.dataLoaded:
             if(self.ExSess.checkExercise(input_str)):
-                self.writeToLog('Correct! Score: '+ str(self.ExSess.getScore()) + '/' + str(self.ExSess.ex_amount) + '\n')
+                self.writeToLog(self.ExSess.getScoreStr())
                 self.ExSess.nextExercise()
-                self.ExSess.attemptNo=1
             elif self.ExSess.attemptNo % 3 != 0:
                 #Adjust log message to plural/singular
                 if 3-self.ExSess.attemptNo == 1:
@@ -107,11 +103,11 @@ class MainWindow(QtGui.QWidget):
                                     str(self.ExSess.ex_amount) + '\n')
                 self.ExSess.nextExercise()
                 self.ExSess.attemptNo=1
-            if self.ExSess.ex_no==(self.ExSess.ex_amount-1):
+            if self.ExSess.ex_no==(len(self.ExSess.vocabularium)+1):
                 self.writeToLog('Done! Resetting score...') 
                 self.ExSess.resetScore()
             self.showExercise()
-        
+
             
     def keyPressEvent(self, e):
 
