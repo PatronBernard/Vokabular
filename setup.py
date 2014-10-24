@@ -5,4 +5,4 @@ import py2exe
 #You might have to do this too:
 #http://stackoverflow.com/questions/23970240/how-to-stop-python-program-compiled-in-py2exe-from-displaying-importerror-no-mo
 
-setup(console=['Vertaal_OefeningQT.py'])
+setup(console=['Vokabular.py'])

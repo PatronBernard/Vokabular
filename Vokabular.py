@@ -23,7 +23,12 @@ class MainWindow(QtGui.QWidget):
                 self.writeToLog('Failed to load ' + '\"' + filename + '\"')
                 self.writeToLog('Please restart the application.')
         else:
-            self.writeToLog('No command line input file supplied. Please restart the application.')
+            self.writeToLog('No command line input file supplied.')
+            arg_file=open('arg.txt','r')
+            filename=arg_file.readline()
+            self.loadData(filename)
+            arg_file.close()
+
 
             
     def initUI(self):    
@@ -128,8 +133,8 @@ def main():
     if len(sys.argv)==2:
         MainW.loadData(sys.argv[1])
     else:
-        MainW.loadData('testopgave.xlsx')
-        print('No command line filename supplied. Reverting to default "testopgave.xlsx"')
+        MainW.loadData('')
+        #print('No command line filename supplied. Reverting to default "testopgave.xlsx"')
         
     sys.exit(app.exec_())
     
