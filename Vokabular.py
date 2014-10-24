@@ -24,7 +24,7 @@ class MainWindow(QtGui.QWidget):
                 self.writeToLog('Please restart the application.')
         else:
             self.writeToLog('No command line input file supplied.')
-            arg_file=open('arg.txt','r')
+            arg_file=open('default.txt','r')
             filename=arg_file.readline()
             self.loadData(filename)
             arg_file.close()
